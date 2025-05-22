@@ -11,7 +11,7 @@ param namespaceName string
 param topicName string
 
 @description('Optional. ISO 8601 timespan idle interval after which the subscription is automatically deleted. The minimum duration is 5 minutes.')
-param autoDeleteOnIdle string = 'PT1H'
+param autoDeleteOnIdle string = 'P10675199DT2H48M5.4775807S'
 
 @description('Optional. The properties that are associated with a subscription that is client-affine.')
 param clientAffineProperties object = {}
@@ -170,8 +170,8 @@ type ruleType = {
     @description('Optional. Session identifier.')
     sessionId: string?
 
-    @description('Required. Address to send to.')
-    to: string
+    @description('Optional. Address to send to.')
+    to: string?
   }?
 
   @description('Optional. Filter type that is evaluated against a BrokeredMessage.')
