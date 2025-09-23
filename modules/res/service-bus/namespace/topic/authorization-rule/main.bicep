@@ -42,3 +42,7 @@ output resourceId string = authorizationRule.id
 
 @description('The name of the Resource Group the authorization rule was created in.')
 output resourceGroupName string = resourceGroup().name
+
+@secure()
+@description('The primary connection string.')
+output primaryConnectionString string = authorizationRule.listKeys().primaryConnectionString
