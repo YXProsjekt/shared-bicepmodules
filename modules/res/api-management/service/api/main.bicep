@@ -71,6 +71,9 @@ param loggerName string = ''
 @description('Required. Relative URL uniquely identifying this API and all of its resource paths within the API Management service instance. It is appended to the API endpoint base URL specified during the service instance creation to form a public URL for this API.')
 param path string
 
+@description('Optional. The names of the tags to apply to the API.')
+param tags string[] = []
+
 @description('Optional. Describes on which protocols the operations in this API can be invoked. - HTTP or HTTPS.')
 param protocols array = [
   'https'
@@ -134,6 +137,17 @@ resource api 'Microsoft.ApiManagement/service/apis@2022-08-01' = {
     wsdlSelector: wsdlSelector ?? {}
   }
 }
+
+module apiTags 'tags/main.bicep' = [
+  for (tag, index) in tags ?? []: {
+    name: '${deployment().name}-Tag-${index}'
+    params: {
+      apiManagementServiceName: apiManagementServiceName
+      apiName: api.name
+      name: tag
+    }
+  }
+]
 
 module policy 'policy/main.bicep' = [
   for (policy, index) in policies ?? []: {
